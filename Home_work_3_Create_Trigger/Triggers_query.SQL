@@ -3,7 +3,7 @@ CREATE TABLE seat AS SELECT * FROM SEATS
 SELECT * FROM seat;
 --drop table log_seats
 SELECT * FROM SEATS;
-CREATE TABLE log_seats
+CREATE TABLE log_seats -- таблица для записи логов триггера
   (log_id_trg NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   user_id_trg VARCHAR(9),
   log_date_trg DATE,
@@ -12,7 +12,7 @@ CREATE TABLE log_seats
   seats_num VARCHAR(9),
   code_air VARCHAR(9));
                        
-                               
+-- create trigger                                
 CREATE OR REPLACE TRIGGER seats_validation 
 AFTER INSERT ON seat 
 FOR EACH ROW 
@@ -29,8 +29,8 @@ BEGIN
     (USER, SYSDATE, NULL, NULL, :NEW.SEAT_NO, :NEW.AIRCRAFT_CODE); 
   END IF; 
 END seat_log_trg;   
-
+-- insert test data
 INSERT INTO seat(AIRCRAFT_CODE, SEAT_NO, FARE_CONDITIONS)
 VALUES ('CR2', '32R', 'Ecss');
-
+-- select logs tables
 SELECT * FROM log_seats;
